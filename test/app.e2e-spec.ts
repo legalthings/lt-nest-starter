@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModuleConfig } from '../src/app.module';
+import { AppModuleConfig } from '../src/app/app.module';
 import { INestApplication } from '@nestjs/common';
 
 describe('Application e2e test', () => {
@@ -20,7 +20,7 @@ describe('Application e2e test', () => {
     test('should redirect to swagger api', async () => {
       const res = await request(app.getHttpServer()).get('/');
       expect(res.status).toBe(302);
-      expect(res.header.location).toBe('/api-docs');
+      expect(res.header.location).toBe('/api');
     });
   });
 });

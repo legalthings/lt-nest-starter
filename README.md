@@ -1,6 +1,6 @@
 ## Description
 
-LT Start project for quick starting an application
+LT starter project
 
 ## Installation
 

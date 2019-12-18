@@ -1,0 +1,4 @@
+#!/bin/bash
+export TAG=$(git tag --contains)
+
+docker build -t $DOCKER_REPO .
