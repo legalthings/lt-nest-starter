@@ -37,6 +37,7 @@ export class UserController {
   ) { }
 
   @Get('/:id')
+  @UseGuards(SessionGuard)
   @ApiOperation({ title: 'Get user by id or email' })
   @ApiResponse({ status: 200, type: GetUserResponse200 })
   @ApiResponse({ status: 404 })

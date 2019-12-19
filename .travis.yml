@@ -5,6 +5,9 @@ node_js:
 
 sudo: false
 
+services:
+  - mongodb
+
 # Add your branch here to have it tested and deployed
 branches:
   only:
