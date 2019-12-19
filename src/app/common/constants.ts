@@ -1,0 +1,9 @@
+export const WINSTON = 'WinstonToken';
+export const MOMENT = 'MomentToken';
+export const LTO = 'LtoToken';
+export const STRIPE = 'StripeToken';
+export const TWEET_NACL = 'TweetNaclToken';
+export const DB_DEFAULT_CONNECTION = 'DbDefaultConnectionToken';
+export const RECAPTCHA = 'RecaptchaToken';
+export const SPEAKEASY = 'SpeakEasyToken';
+export const FILESYSTEM = 'FilesystemToken';

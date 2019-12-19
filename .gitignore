@@ -13,6 +13,9 @@ results
 tmp
 .node-xml*
 
+#Build
+public/css/main.css
+
 # API keys and secrets
 .env
 
@@ -37,6 +40,3 @@ coverage
 # Logs
 *.log
 logs
-
-# Front end
-.cache

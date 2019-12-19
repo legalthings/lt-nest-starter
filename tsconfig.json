@@ -1,18 +1,20 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "strictPropertyInitialization": false,
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
+    "skipLibCheck": true,
+    "target": "esnext",
     "sourceMap": true,
+    "allowJs": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./src/app"
   },
   "include": [
     "src/**/*"

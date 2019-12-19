@@ -1,15 +1,24 @@
+import { LoggerService } from './app/common/modules/logger/logger.service';
+import { ConfigService } from './app/common/modules/config/config.service';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { INestApplication } from '@nestjs/common';
-import { ConfigService } from './config/config.service';
-import { LoggerService } from './logger/logger.service';
+import cors from 'cors';
 import helmet from 'helmet';
+import cookie from 'cookie-parser';
+import bodyParser from 'body-parser';
+import cloneBuffer from 'clone-buffer';
+import { Request } from 'express';
+
+declare const module: any;
 
 async function swagger(app: INestApplication) {
   const options = new DocumentBuilder()
     .setTitle('LT Starter')
-    .setDescription('Set a description for your project')
+    .setDescription('LT starter project')
+    .addBearerAuth()
     .build();
 
   options.schemes = ['http', 'https'];
@@ -17,15 +26,26 @@ async function swagger(app: INestApplication) {
   SwaggerModule.setup('api-docs', app, document);
 }
 
-declare const module: any;
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  swagger(app);
-
-  app.use(helmet());
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: false });
+  await swagger(app);
 
   const config = app.get<ConfigService>(ConfigService);
+
+  const dist = await config.getDist();
+  if (dist) {
+    app.useStaticAssets(dist, { index: false });
+  }
+  app.use(cors(await config.getCors()));
+  app.use(cookie());
+  app.use(helmet());
+  app.use(bodyParser.json({
+    verify: (req: Request, res, buf) => {
+      (req as any).rawBody = Buffer.isBuffer(buf) && config.isRawPath(req.path) && cloneBuffer(buf);
+      return true;
+    },
+  }));
+
   await app.listenAsync(config.getPort());
 
   const logger = app.get<LoggerService>(LoggerService);
@@ -37,4 +57,5 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 }
+
 bootstrap();

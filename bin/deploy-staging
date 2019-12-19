@@ -1,0 +1,17 @@
+#!/bin/bash
+# Set env vars to staging
+export AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY
+export DOCKER_ECR=$STAGING_DOCKER_ECR
+
+# deploy docker image to ecr
+docker --version
+export PATH=$PATH:$HOME/.local/bin
+eval $(aws ecr get-login --region eu-west-1 --no-include-email | sed 's|https://||')
+
+docker tag $DOCKER_REPO $DOCKER_ECR/$DOCKER_REPO:$TAG
+docker push $DOCKER_ECR/$DOCKER_REPO:$TAG
+
+# Create app
+echo "{\"AWSEBDockerrunVersion\": \"1\",  \"Image\": { \"Name\": \"$DOCKER_ECR/$DOCKER_REPO:$TAG\" }, \"Ports\": [{\"ContainerPort\": \"80\"}]}" > Dockerrun.aws.json
+zip app Dockerrun.aws.json
