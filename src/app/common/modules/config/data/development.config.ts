@@ -2,13 +2,16 @@ export default {
   debug: true,
   port: 3000,
   log: {
-    level: 'debug'
+    level: 'debug',
   },
   mailer: {
-    test: true
+    test: true,
   },
   index: 'frontend/dist/frontend/index.html',
   captcha: {
-    enabled: false
-  }
+    enabled: false,
+  },
+  ssl: {
+    enabled: false,
+  },
 };
