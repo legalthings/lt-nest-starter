@@ -108,6 +108,10 @@ export class ConfigService {
     return this.config.get('captcha');
   }
 
+  getMfa(): { issuer } {
+    return this.config.get('mfa');
+  }
+
   getMailBox(): { from: { email: string; name: string; } } {
     return this.config.get('mailbox');
   }
