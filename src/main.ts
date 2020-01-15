@@ -14,23 +14,24 @@ import { Request } from 'express';
 
 declare const module: any;
 
-async function swagger(app: INestApplication) {
+async function swagger(app: INestApplication, config: ConfigService) {
   const options = new DocumentBuilder()
     .setTitle('LT Starter')
     .setDescription('LT starter project')
     .addBearerAuth()
     .build();
 
-  options.schemes = ['http', 'https'];
+  config.isSSLEnabled() ? options.schemes = ['https'] : options.schemes = ['http', 'https'];
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);
 }
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: false });
-  await swagger(app);
-
   const config = app.get<ConfigService>(ConfigService);
+
+  await swagger(app, config);
 
   const dist = await config.getDist();
   if (dist) {

@@ -104,6 +104,13 @@ export default {
       env: 'CAPTCHA_ENABLED'
     }
   },
+  mfa: {
+    doc: 'MFA configuration',
+    issuer: {
+      default: 'Starter service',
+      env: 'MFA_ISSUER'
+    },
+  },
   ssl: {
     enabled: {
       default: true,
